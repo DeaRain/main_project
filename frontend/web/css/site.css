@@ -118,3 +118,49 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+
+.img-wrap {
+    position: relative;
+}
+
+.img-category {
+    position: absolute;
+    top: 5px;
+    padding-left: 7px;
+    font-size: 12pt;
+    left: 7px;
+    color: #fdf7f7;
+    background: #268ed2;
+    min-width:200px;
+}
+.article-title a{
+    color: #333333;
+}
+
+.article-title a:hover{
+    color: #268ed2;
+    text-decoration: none;
+}
+
+.img-category a{
+    color: #fdf7f7;
+}
+
+.img-author {
+    position: absolute;
+    bottom: 0;
+    padding-left: 7px;
+    font-size: 10pt;
+    color: #fdf7f7;
+    background: #222;
+    width:100%;
+}
+.img-date {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-right: 10px;
+    font-size: 10pt;
+    color: #fdf7f7;
+}

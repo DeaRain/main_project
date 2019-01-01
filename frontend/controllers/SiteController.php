@@ -1,8 +1,12 @@
 <?php
 namespace frontend\controllers;
 
+use frontend\models\Article;
+use frontend\models\Category;
+use frontend\models\UploadImage;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -12,6 +16,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -72,8 +77,58 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $provider = $this->getProvider(9);
+        return $this->render('index',['articles'=>$provider]);
     }
+
+    public function actionViewCat($id=null)
+    {
+        if($id==null){
+            $this->redirect('/site/category');
+        }
+        $title=Category::find()->where(['id'=>$id])->limit(1)->one();
+        $provider = $this->getProvider(9,$id);
+
+
+//        echo "<pre>";
+//        print_r($article);die;
+//        echo "<pre>";
+
+        return $this->render('viewCat',['articles'=>$provider,'title'=>$title->name]);
+    }
+
+    public function actionViewArt($id=null)
+    {
+        if($id==null){
+            $this->goHome();
+        }
+
+        $article=Article::find()->where(['id'=>$id])->limit(1)->one();
+//        echo "<pre>";
+//        print_r($article);die;
+//        echo "<pre>";
+        return $this->render('viewArt',['article'=>$article]);
+    }
+
+
+    public function actionCategory()
+    {
+        $this->layout="mainNotMenu";
+        $category = Category::find()->where(['active'=>'1'])->orderBy('name')->all();
+        return $this->render('category',['categoryes'=>$category]);
+    }
+
+    public function actionUpload()
+    {
+        $model = new UploadImage();
+        if(Yii::$app->request->isPost){
+            $model->image = UploadedFile::getInstance($model, 'image');
+            $model->upload();
+            return $this->render('upload', ['model' => $model]);
+        }
+        return $this->render('upload', ['model' => $model]);
+    }
+
 
     /**
      * Logs in a user.
@@ -211,5 +266,20 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function getProvider($pageSize=10,$id=null){
+        $provider = new ActiveDataProvider([
+            'query' => Article::getDataProvider($id),
+            'pagination' => [
+                'pageSize' => $pageSize,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC,
+                ]
+            ],
+        ]);
+        return $provider;
     }
 }

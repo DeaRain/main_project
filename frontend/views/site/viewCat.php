@@ -2,9 +2,13 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'Main Page';
+$this->title = $title;
+$this->params['breadcrumbs'][] = [
+    'label' => "Все категории", // название ссылки
+    'url' => ['/site/category'] // сама ссылка
+];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-
 
 <div class="row">
     <?= \yii\widgets\ListView::widget([

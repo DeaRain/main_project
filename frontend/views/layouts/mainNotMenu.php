@@ -29,8 +29,6 @@ AppAsset::register($this);
 
 <div class="wrap" >
     <?php
-
-
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
@@ -50,7 +48,7 @@ AppAsset::register($this);
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
-                'Выход (' . Yii::$app->user->identity->username . ')',
+                'Logout (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()
@@ -62,22 +60,13 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-    <div class="container-fluid" style="margin-top: 70px">
+    <div class="container" >
 <!--    <div style="margin: 100px 0px">-->
-        <div class="col-lg-3">
-            <?= CategoryList::widget([
-                    'title' => 'Последние обновления',
-                    'limit'=>13,
-            ]) ?>
-        </div>
-
-        <div class="col-lg-9">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
             <?= Alert::widget() ?>
             <?= $content ?>
-        </div>
     </div>
 </div>
 

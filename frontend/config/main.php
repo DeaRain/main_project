@@ -16,6 +16,9 @@ return [
             'csrfParam' => '_csrf-frontend',
             'baseUrl' => '',
         ],
+        'storage' => [
+            'class' => 'common\components\Storage'
+        ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
